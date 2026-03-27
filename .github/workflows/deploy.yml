@@ -24,7 +24,9 @@ jobs:
           version: latest
 
       - name: Validate Supabase Migrations
-        run: supabase db lint
+        run: |
+          supabase start
+          supabase db lint
 
       - name: Push Database Migrations to Staging/Production
         if: github.ref == 'refs/heads/main'
