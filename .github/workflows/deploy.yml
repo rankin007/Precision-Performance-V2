@@ -1,0 +1,56 @@
+name: Precision Performance CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  supabase-migrations:
+    name: Supabase Database Sync & Validation
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.PRODUCTION_DB_PASSWORD }}
+      SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+    steps:
+      - name: Code Repository Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Validate Supabase Migrations
+        run: supabase db lint
+
+      - name: Push Database Migrations to Staging/Production
+        if: github.ref == 'refs/heads/main'
+        run: supabase db push
+
+  vercel-deployment:
+    name: Vercel Frontend Deployment
+    runs-on: ubuntu-latest
+    needs: supabase-migrations
+    steps:
+      - name: Code Repository Checkout
+        uses: actions/checkout@v3
+
+      # Note: Vercel automatically deploys pushes to main if linked in the Vercel Dashboard.
+      # This step serves as an audit log or for explicit CLI deployments.
+      - name: Vercel Deployment Trigger
+        run: echo "Vercel triggers automatically via GitHub integration on 'main' branch."
+
+  railway-workers:
+    name: Railway Background Workers
+    runs-on: ubuntu-latest
+    needs: supabase-migrations
+    steps:
+      - name: Code Repository Checkout
+        uses: actions/checkout@v3
+        
+      # Railway automatically builds based on the Dockerfile or Procfile.
+      - name: Railway Deployment Status
+        run: echo "Railway triggers automatically via GitHub integration."
