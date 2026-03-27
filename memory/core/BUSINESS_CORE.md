@@ -5,11 +5,11 @@ status: active
 # Business Core: PrecisionPerformance.com
 
 ## Mission
-To provide elite equine trainers and owners with high-precision biological insights through professional urine and saliva analysis, optimising performance and health.
+To eliminate ambiguity in equine performance through high-precision biological analysis of urine and saliva. We provide trainers with the empirical data required to make objective health and training decisions.
 
-## The Mantra
-"Home – Breathe – Smile – Breathe"
-This philosophy guides our user experience, ensuring the technical data leads to calm, informed decision-making for the horse's welfare.
+## The Philosophy
+"Go by the Numbers, Trust the Numbers, No Guessing."
+Every feature, graph, and report must be built on a foundation of verifiable metrics. Subjective "guessing" is replaced by mathematical certainty.
 
 ## Target Audience
 - Elite Thoroughbred Trainers.
