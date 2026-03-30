@@ -1,8 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F8F9F8;
+  --foreground: #1B3022;
+  --paddock-green: #1B3022;
+  --healing-gold: #C5A059;
+  --lab-slate: #2D2E2E;
 }
 
 @theme inline {

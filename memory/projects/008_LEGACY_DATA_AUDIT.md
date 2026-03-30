@@ -17,3 +17,7 @@ To audit the legacy Antigravity file "SPORTS PERFORMANCE AND RECOVERY" and ident
 - [ ] Bridge Ops: Environment Scan
 - [ ] Data Alchemist: Metrics & Schema Review
 - [ ] Portal Architect: UI/UX Logic Review
+"C:\Users\Phil\Documents\BEI\SPORTS PERFORMANCE AND RECOVEY\Equine Performance\Elite_Equine_Performance_Analysis_Price_List_for_Thoroughbred_Owners_&_Trainers.docx"
+"C:\Users\Phil\Documents\BEI\SPORTS PERFORMANCE AND RECOVEY\Equine Performance\Equine Precision Data Collected.docx"
+"C:\Users\Phil\Documents\BEI\SPORTS PERFORMANCE AND RECOVEY\Equine Performance\Equine Precision Real Data Collected V4.docx"
+"C:\Users\Phil\Documents\BEI\SPORTS PERFORMANCE AND RECOVEY\Equine Performance\Financial_Plan__Investment_Overview V4.docx"
