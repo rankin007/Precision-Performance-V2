@@ -2,7 +2,11 @@
 -- Philosophy: "Go by the Numbers, No Guessing"
 
 -- Create a view for standard aggregated daily performance metrics
-CREATE OR REPLACE VIEW public.vw_daily_metrics_summary AS
+-- SECURITY INVOKER: view runs with the calling user's permissions so RLS is always enforced.
+DROP VIEW IF EXISTS public.vw_daily_metrics_summary;
+CREATE VIEW public.vw_daily_metrics_summary
+WITH (security_invoker = true)
+AS
 SELECT 
     horse_id,
     DATE(created_at) AS log_date,
@@ -50,4 +54,5 @@ BEGIN
     ORDER BY 
         v.log_date ASC;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY INVOKER
+   SET search_path = public;
