@@ -1,4 +1,5 @@
 import { login, signup } from './actions'
+import Link from 'next/link'
 
 export default function LoginPage({
   searchParams,
@@ -59,6 +60,18 @@ export default function LoginPage({
         >
           Register New Account
         </button>
+
+        {/* DEV BYPASS BUTTON */}
+        {process.env.NODE_ENV === 'development' && (
+          <div className="mt-4 flex flex-col pt-4 border-t border-slate-200">
+            <Link 
+              href="/portal/trainer/dashboard"
+              className="text-center bg-[#C5A059] hover:bg-[#b08d4b] text-white rounded-md px-4 py-3 text-sm font-bold uppercase tracking-widest shadow-md transition-all"
+            >
+              🔥 Enter Demo Dashboard (Local Bypass)
+            </Link>
+          </div>
+        )}
 
         {searchParams?.error && (
           <p className="mt-4 p-4 bg-red-50 text-red-700 text-center text-sm rounded-md font-medium border border-red-100">
