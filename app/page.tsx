@@ -73,26 +73,23 @@ export default function Home() {
       {/* BOTTOM PROTOCOLS BANNER */}
       <footer className="relative z-20 w-full max-w-5xl mx-auto bg-[#F9FAFB] rounded-t-xl py-8 px-6 md:px-12 shadow-2xl translate-y-2">
         <h4 className="text-center text-xl font-bold text-slate-900 tracking-widest uppercase mb-6">
-          Our Protocols
+          Our Philosophy
         </h4>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 divide-y md:divide-y-0 md:divide-x divide-slate-200">
           
-          {/* Protocol 1 */}
-          <div className="flex flex-col items-center text-center pt-4 md:pt-0">
-            <span className="text-lg font-bold text-slate-800 mb-1">SUGARS (BRIX)</span>
-            <span className="text-sm font-medium text-slate-500">Target 3-4%</span>
+          {/* Philosophy 1 */}
+          <div className="flex flex-col items-center justify-center text-center pt-4 md:pt-0">
+            <span className="text-xl md:text-2xl font-bold text-slate-800 uppercase tracking-wide">GO BY THE NUMBERS.</span>
           </div>
 
-          {/* Protocol 2 */}
-          <div className="flex flex-col items-center text-center pt-4 md:pt-0">
-            <span className="text-lg font-bold text-slate-800 mb-1">CONDUCTIVITY (C)</span>
-            <span className="text-sm font-medium text-slate-500">Target 15C-20C</span>
+          {/* Philosophy 2 */}
+          <div className="flex flex-col items-center justify-center text-center pt-4 md:pt-0">
+            <span className="text-xl md:text-2xl font-bold text-slate-800 uppercase tracking-wide text-[#C5A059]">TRUST THE NUMBERS.</span>
           </div>
 
-          {/* Protocol 3 */}
-          <div className="flex flex-col items-center text-center pt-4 md:pt-0">
-            <span className="text-lg font-bold text-slate-800 mb-1">pH (6.4-7.0)</span>
-            <span className="text-sm font-medium text-slate-500">Target 6.4-7.0</span>
+          {/* Philosophy 3 */}
+          <div className="flex flex-col items-center justify-center text-center pt-4 md:pt-0">
+            <span className="text-xl md:text-2xl font-bold text-slate-800 uppercase tracking-wide">NO GUESSING.</span>
           </div>
 
         </div>
