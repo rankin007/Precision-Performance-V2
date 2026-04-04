@@ -141,19 +141,8 @@ export default function BioDataStepper() {
         )}
       </AnimatePresence>
 
-      {/* HEADER: TACTICAL HUD */}
-      <div className="flex justify-between items-center mb-12">
-        <div className="flex items-center gap-3">
-            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-sm shadow-emerald-500/50" />
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Tactical Link Active</span>
-        </div>
-        <div className="text-[10px] font-bold text-[#C5A059] uppercase tracking-widest">
-            Step {step} / 3
-        </div>
-      </div>
-
       {error && (
-        <div className="mb-8 p-6 bg-red-900/20 border border-red-500/30 rounded-2xl text-red-500 text-xs font-bold uppercase tracking-widest text-center">
+        <div className="mb-6 p-4 bg-red-900/20 border border-red-500/30 rounded-2xl text-red-500 text-[10px] font-bold uppercase tracking-widest text-center">
             {error}
         </div>
       )}
