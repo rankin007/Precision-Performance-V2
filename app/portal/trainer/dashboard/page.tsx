@@ -15,10 +15,75 @@ const Tooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip), { ssr
 const ReferenceArea = dynamic(() => import('recharts').then(mod => mod.ReferenceArea), { ssr: false })
 
 export default function TrainerDashboard() {
-  const [msValue, setMsValue] = useState<string>('11.2')
+  const supabase = createClient()
   
-  // Real-time calculation using the 1.43 Precision Multiplier
+  // Real-time React State
+  const [horseId, setHorseId] = useState<string | null>(null)
+  const [msValue, setMsValue] = useState<string>('11.2')
+  const [brixValue, setBrixValue] = useState<string>('3.5')
+  const [urinePh, setUrinePh] = useState<string>('6.7')
+  const [salivaPh, setSalivaPh] = useState<string>('6.5')
+  const [hydrationNotes, setHydrationNotes] = useState<string>('Drinking well, clear urine')
+  const [feedingChanges, setFeedingChanges] = useState<string>('Added 500g Magnesium')
+  const [isSaving, setIsSaving] = useState(false)
+
+  // Real-time calculation using the 1.43 Precision Multiplier UI
   const cValue = (parseFloat(msValue) || 0) * 1.43
+
+  useEffect(() => {
+    // 1. Fetch the first horse on mount to map records correctly
+    async function fetchFirstHorse() {
+      const { data, error } = await supabase.from('horses').select('id').limit(1).single()
+      if (data && !error) {
+        setHorseId(data.id)
+      }
+    }
+    fetchFirstHorse()
+  }, [])
+
+  const submitDataToStable = async () => {
+    if (!horseId) {
+      alert('Error: No active horse attached. Please seed database.')
+      return
+    }
+    
+    setIsSaving(true)
+    
+    try {
+      // 2. THE HANDSHAKE: INSERT INTO SUPABASE
+      // Rely on the robust GENERATED ALWAYS AS (urine_salts_ms * 1.43) stored in the DB so math errors are impossible.
+      const { error } = await supabase
+        .from('bio_logs')
+        .insert([
+          { 
+            horse_id: horseId, 
+            urine_salts_ms: parseFloat(msValue) || 0,
+            urine_brix: parseFloat(brixValue) || 0,
+            urine_ph: parseFloat(urinePh) || 0,
+            saliva_ph: parseFloat(salivaPh) || 0,
+            hydration_notes: hydrationNotes,
+            feeding_changes: feedingChanges
+          },
+        ])
+
+      if (error) throw error
+
+      // 3. THE SUCCESS: CLEAR FORM AND SHOW ALERT
+      alert('✅ Precision Data Synced to Stable!')
+      setMsValue('')
+      setBrixValue('')
+      setUrinePh('')
+      setSalivaPh('')
+      setHydrationNotes('')
+      setFeedingChanges('')
+
+    } catch (error) {
+      alert('SYNC FAILED: Check local Console Logs.')
+      console.error('Error syncing:', error)
+    } finally {
+      setIsSaving(false)
+    }
+  }
 
   return (
     <div className="p-10 space-y-10">
@@ -84,36 +149,95 @@ export default function TrainerDashboard() {
                 <span className="text-[10px] bg-[#D4AF37] px-2 py-0.5 rounded text-[#1B3022] font-bold uppercase tracking-tighter self-start mt-1">PRO</span>
             </h3>
 
-            <div className="space-y-6">
+            <div className="space-y-4 relative z-10">
+                
+                {/* Salts Top Row */}
+                <div className="flex gap-4">
+                  <div className="flex-1">
+                      <label className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-2 block">Salts (ms)</label>
+                      <input 
+                          type="number"
+                          value={msValue}
+                          onChange={(e) => setMsValue(e.target.value)}
+                          className="w-full bg-[#2D2E2E] border border-transparent focus:border-[#D4AF37] rounded-lg px-4 py-3 text-lg font-light outline-none transition-all"
+                      />
+                  </div>
+                  <div className="flex-1 bg-[#D4AF37] p-3 rounded-lg text-[#1B3022] shadow-inner flex flex-col justify-center">
+                      <p className="text-[9px] uppercase font-bold mb-1 opacity-70">Salts (C)</p>
+                      <div className="flex items-baseline gap-1">
+                          <span className="text-2xl font-bold tracking-tighter">{cValue.toFixed(3)}</span>
+                          <span className="text-[10px] font-bold opacity-60">C</span>
+                      </div>
+                  </div>
+                </div>
+
+                {/* Grid Inputs for Brix & pH */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div>
+                    <label className="text-[9px] uppercase tracking-widest text-slate-400 font-bold mb-2 block">Sugars</label>
+                    <input 
+                        type="number"
+                        value={brixValue}
+                        onChange={(e) => setBrixValue(e.target.value)}
+                        placeholder="%"
+                        title="Brix Target: 3-4%"
+                        className="w-full bg-[#2D2E2E] border border-transparent focus:border-[#D4AF37] rounded-md px-3 py-2 text-sm font-light outline-none transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[9px] uppercase tracking-widest text-slate-400 font-bold mb-2 block">Urine pH</label>
+                    <input 
+                        type="number"
+                        value={urinePh}
+                        onChange={(e) => setUrinePh(e.target.value)}
+                        placeholder="6.4"
+                        className="w-full bg-[#2D2E2E] border border-transparent focus:border-[#D4AF37] rounded-md px-3 py-2 text-sm font-light outline-none transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[9px] uppercase tracking-widest text-slate-400 font-bold mb-2 block">Saliva pH</label>
+                    <input 
+                        type="number"
+                        value={salivaPh}
+                        onChange={(e) => setSalivaPh(e.target.value)}
+                        placeholder="6.4"
+                        className="w-full bg-[#2D2E2E] border border-transparent focus:border-[#D4AF37] rounded-md px-3 py-2 text-sm font-light outline-none transition-all"
+                    />
+                  </div>
+                </div>
+
+                {/* Text Notes */}
                 <div>
-                    <label className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-2 block">Conductivity (ms)</label>
-                    <div className="relative">
-                        <input 
-                            type="number"
-                            value={msValue}
-                            onChange={(e) => setMsValue(e.target.value)}
-                            className="w-full bg-[#2D2E2E] border border-transparent focus:border-[#D4AF37] rounded-lg px-4 py-4 text-2xl font-light outline-none transition-all"
-                        />
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[#D4AF37] text-xs font-bold uppercase">
-                            ms
-                        </div>
-                    </div>
+                  <label className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-2 block">Hydration Notes</label>
+                  <input 
+                      type="text"
+                      value={hydrationNotes}
+                      onChange={(e) => setHydrationNotes(e.target.value)}
+                      className="w-full bg-[#2D2E2E] border border-transparent focus:border-[#D4AF37] rounded-lg px-4 py-2 text-xs font-light outline-none transition-all"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-2 block">Feeding Changes</label>
+                  <input 
+                      type="text"
+                      value={feedingChanges}
+                      onChange={(e) => setFeedingChanges(e.target.value)}
+                      className="w-full bg-[#2D2E2E] border border-transparent focus:border-[#D4AF37] rounded-lg px-4 py-2 text-xs font-light outline-none transition-all"
+                  />
                 </div>
 
-                <div className="bg-[#D4AF37] p-6 rounded-lg text-[#1B3022] shadow-inner">
-                    <p className="text-[10px] uppercase font-bold mb-1 opacity-70">Calculated Salts (C)</p>
-                    <div className="flex items-baseline gap-2">
-                        <span className="text-4xl font-bold tracking-tighter">{cValue.toFixed(3)}</span>
-                        <span className="text-xs font-bold opacity-60">C</span>
-                    </div>
-                    <p className="text-[10px] mt-4 opacity-60 italic border-t border-[#1B3022]/10 pt-2 font-medium">
-                        *Precision Multiplier: 1.43 applied.
-                    </p>
+                <div className="pt-4">
+                  <button 
+                    onClick={submitDataToStable}
+                    disabled={isSaving}
+                    className="w-full py-4 bg-white text-[#1B3022] font-bold uppercase tracking-widest text-xs rounded-lg hover:bg-slate-100 transition-all shadow-md active:scale-[0.98] disabled:opacity-50"
+                  >
+                      {isSaving ? 'Syncing...' : 'Sync to Stable Records'}
+                  </button>
+                  <p className="text-[9px] text-center mt-3 text-slate-400 opacity-60 italic">
+                      DB math lock: (ms * 1.43 = C) generated locally.
+                  </p>
                 </div>
-
-                <button className="w-full py-4 bg-white text-[#1B3022] font-bold uppercase tracking-widest text-xs rounded-lg hover:bg-slate-100 transition-all shadow-md active:scale-[0.98]">
-                    Sync to Stable Records
-                </button>
             </div>
           </div>
 
