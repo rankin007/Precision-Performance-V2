@@ -23,6 +23,9 @@ CREATE TABLE public.horses (
     name TEXT NOT NULL,
     trainer_id UUID NOT NULL REFERENCES public.trainers(id) ON DELETE CASCADE,
     client_id UUID NOT NULL REFERENCES public.clients(id) ON DELETE CASCADE,
+    age INTEGER,
+    breed TEXT,
+    default_weight_kg NUMERIC(5,1),
     photo_urls TEXT[], -- Array of URLs pointing to Supabase Storage
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );

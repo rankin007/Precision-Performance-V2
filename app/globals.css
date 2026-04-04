@@ -1,18 +1,32 @@
 @import "tailwindcss";
 
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-paddock: var(--paddock-green);
+  --color-paddock-green: var(--paddock-green);
+  --color-gold: var(--healing-gold);
+  --color-healing-gold: var(--healing-gold);
+  --color-slate-lab: var(--lab-slate);
+  
+  --font-sans: "Inter", "Outfit", system-ui, sans-serif;
+  
+  --animate-gold-pulse: gold-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes gold-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .7; transform: scale(1.05); }
+}
+
 :root {
   --background: #F8F9F8;
   --foreground: #1B3022;
   --paddock-green: #1B3022;
   --healing-gold: #C5A059;
   --lab-slate: #2D2E2E;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(197, 160, 89, 0.2);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,8 +36,52 @@
   }
 }
 
+/* Tactical Elite Utilities */
+.tactical-paddock {
+  position: relative;
+  background-color: var(--paddock-green);
+  overflow: hidden;
+}
+
+.tactical-paddock::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tactical-paddock > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Recharts Glow Filter */
+.gold-glow-line {
+  filter: drop-shadow(0 0 8px rgba(197, 160, 89, 0.4));
+}
+
+@utility glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(197, 160, 89, 0.2);
+}
+
+@utility gold-success-animate {
+  animation: gold-success-glow 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes gold-success-glow {
+  0% { background: #1B3022; box-shadow: 0 0 0 0 rgba(197, 160, 89, 0); }
+  30% { background: #C5A059; box-shadow: 0 0 40px 10px rgba(197, 160, 89, 0.6); }
+  100% { background: #C5A059; box-shadow: 0 0 20px 5px rgba(197, 160, 89, 0.3); }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }

@@ -1,0 +1,12 @@
+{
+  "github-actions.workflows.pinned.refresh.enabled": true,
+  "github-actions.org-features": true,
+  "github-actions.workflows.pinned.workflows": [],
+  "github-actions.remote-name": "origin",
+  "github-actions.workflows.repository-secrets": [
+    "SUPABASE_ACCESS_TOKEN",
+    "PRODUCTION_DB_PASSWORD",
+    "SUPABASE_PROJECT_ID"
+  ],
+  "css.lint.unknownAtRules": "ignore"
+}

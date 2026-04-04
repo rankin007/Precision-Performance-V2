@@ -12,7 +12,7 @@ import {
   ReferenceArea,
   Legend,
 } from 'recharts'
-import { TrendingUp, Droplets, Activity, Zap } from 'lucide-react'
+import { checkHealingStatus } from '@/utils/clinical'
 
 type Horse = { id: string; name: string }
 type Log = {
@@ -20,9 +20,6 @@ type Log = {
   urine_brix: number | null
   urine_ph: number | null
   urine_salts_c: number | null
-  is_healing_brix: boolean | null
-  is_healing_ph_urine: boolean | null
-  is_healing_salts: boolean | null
   horse_id: string
 }
 
@@ -37,13 +34,16 @@ function shortDate(iso: string) {
 function buildSeries(logs: Log[], horseId: string) {
   return logs
     .filter((l) => l.horse_id === horseId)
-    .map((l) => ({
-      date: shortDate(l.recorded_at),
-      brix: l.urine_brix ?? undefined,
-      ph: l.urine_ph ?? undefined,
-      salts_c: l.urine_salts_c ?? undefined,
-      healingEvent: l.is_healing_brix && l.is_healing_ph_urine && l.is_healing_salts,
-    }))
+    .map((l) => {
+      const clinical = checkHealingStatus(l.urine_brix || 0, l.urine_ph || 0, l.urine_salts_c || 0)
+      return {
+        date: shortDate(l.recorded_at),
+        brix: l.urine_brix ?? undefined,
+        ph: l.urine_ph ?? undefined,
+        salts_c: l.urine_salts_c ?? undefined,
+        healingEvent: clinical.isTripleHealing,
+      }
+    })
 }
 
 // A single metric stat badge
