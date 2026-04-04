@@ -37,6 +37,15 @@ export default function LoginPage({
           required
         />
 
+        <label className="text-sm font-medium mt-2" htmlFor="fullName">
+          Full Name (For Registration)
+        </label>
+        <input
+          className="rounded-md px-4 py-2 bg-inherit border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all"
+          name="fullName"
+          placeholder="First Last"
+        />
+
         <label className="text-sm font-medium mt-2" htmlFor="role">
           Account Role (For Registration)
         </label>
@@ -44,8 +53,8 @@ export default function LoginPage({
           name="role" 
           className="rounded-md px-4 py-2 bg-inherit border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all"
         >
-          <option value="trainer">Trainer</option>
-          <option value="client">Client</option>
+          <option value="Trainer">Trainer</option>
+          <option value="Owner">Owner</option>
         </select>
 
         <button
