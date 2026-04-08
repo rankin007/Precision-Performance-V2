@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/utils/supabase/server'
+import { createClient, createAdminClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { Resend } from 'resend'
 
@@ -10,23 +10,24 @@ export async function submitBeKitApplication(formData: FormData) {
     const supabase = await createClient()
 
     // 1. Get User
-    const { data: { user } } = await supabase.auth.getUser()
+    const { data: authData } = await supabase.auth.getUser()
+    const user = authData?.user
 
-    // 2. Extract Fields
-    const fullName = formData.get('fullName') as string
-    const businessName = formData.get('businessName') as string
-    const shippingAddress = formData.get('shippingAddress') as string
-    const mobile = formData.get('mobile') as string
-    const email = formData.get('email') as string
-    const website = formData.get('website') as string
+    // 2. Extract Fields (with null fallbacks)
+    const fullName = formData.get('fullName') as string || ''
+    const businessName = formData.get('businessName') as string || ''
+    const shippingAddress = formData.get('shippingAddress') as string || ''
+    const mobile = formData.get('mobile') as string || ''
+    const email = formData.get('email') as string || ''
+    const website = formData.get('website') as string || ''
 
-    // 3. Server-side Validation (Website Protocol)
-    if (!website.startsWith('http://') && !website.startsWith('https://')) {
+    // 3. Server-side Validation
+    if (website && !website.startsWith('http://') && !website.startsWith('https://')) {
         return { error: 'Website must include http:// or https://' }
     }
 
     // 4. Database Insertion
-    const { error } = await supabase
+    const { error: insertError } = await supabase
         .from('be_kit_applications')
         .insert({
             user_id: user?.id, // Link to user if logged in
@@ -35,50 +36,63 @@ export async function submitBeKitApplication(formData: FormData) {
             shipping_address: shippingAddress,
             mobile: mobile,
             email: email,
-            website: website
+            website: website || 'N/A'
         })
 
-    if (error) {
-        console.error('BE Kit Application Error:', error)
-        return { error: `Submission failed: ${error.message}` }
+    if (insertError) {
+        console.error('BE Kit Application Error:', insertError)
+        return { error: `Submission failed: ${insertError.message}` }
     }
 
     // 5. Update Profile & Metadata (Elite Onboarding Completion)
+    // Using Admin Client to ensure the handshake is NOT blocked by RLS
     if (user) {
-        await supabase
+        const adminSupabase = await createAdminClient()
+        
+        const { error: updateError } = await adminSupabase
             .from('profiles')
             .update({ onboarding_completed: true })
             .eq('id', user.id)
 
-        await supabase.auth.updateUser({
+        if (updateError) {
+            console.error('Profile Update Error:', updateError)
+        }
+
+        const { error: authUpdateError } = await supabase.auth.updateUser({
             data: { onboarding_completed: true }
         })
+
+        if (authUpdateError) {
+            console.error('Auth Metadata Update Error:', authUpdateError)
+        }
     }
 
     // 6. Notification Logic: Trigger 'New Applicant' email to Principal Orchestrator
     try {
-        await resend.emails.send({
-            from: 'BE Onboarding <onboarding@precisionperformance.com.au>',
-            to: [process.env.PRINCIPAL_ORCHESTRATOR_EMAIL || 'admin@precisionperformance.com.au'],
-            subject: 'New Professional BE Kit Application',
-            html: `
-                <h1>New Professional BE Kit Applicant</h1>
-                <p><strong>User ID:</strong> ${user?.id || 'Anonymous'}</p>
-                <p><strong>Name:</strong> ${fullName}</p>
-                <p><strong>Business:</strong> ${businessName}</p>
-                <p><strong>Shipping:</strong> ${shippingAddress}</p>
-                <p><strong>Mobile:</strong> ${mobile}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Website:</strong> ${website}</p>
-                <hr />
-                <p><em>Precision Performance V3 · Automated Handshake Notification</em></p>
-            `
-        })
+        if (process.env.RESEND_API_KEY) {
+            await resend.emails.send({
+                from: 'BE Onboarding <onboarding@precisionperformance.com.au>',
+                to: [process.env.PRINCIPAL_ORCHESTRATOR_EMAIL || 'admin@precisionperformance.com.au'],
+                subject: 'New Professional BE Kit Application',
+                html: `
+                    <h1>New Professional BE Kit Applicant</h1>
+                    <p><strong>User ID:</strong> ${user?.id || 'Anonymous'}</p>
+                    <p><strong>Name:</strong> ${fullName}</p>
+                    <p><strong>Business:</strong> ${businessName}</p>
+                    <p><strong>Shipping:</strong> ${shippingAddress}</p>
+                    <p><strong>Mobile:</strong> ${mobile}</p>
+                    <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Website:</strong> ${website || 'N/A'}</p>
+                    <hr />
+                    <p><em>Precision Performance V3 · Automated Handshake Notification</em></p>
+                `
+            })
+        }
     } catch (emailError) {
         console.error('Failed to send notification email:', emailError)
         // We continue anyway as the DB record is the source of truth
     }
 
-    // 5. Success State
+    // 7. Success State
     return { success: true }
 }

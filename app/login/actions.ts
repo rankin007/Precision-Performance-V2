@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/utils/supabase/server'
+import { createClient, createAdminClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
 export async function login(formData: FormData) {
@@ -86,8 +86,9 @@ export async function signup(formData: FormData) {
       console.warn(`Signup: Could not find membership level "${levelName}". Defaulting to NULL.`)
     }
 
-    // 2. Instantiate the V3 Profile
-    const { error: profileError } = await supabase.from('profiles').insert({
+    // 2. Instantiate the V3 Profile (Using Admin Client to bypass RLS during birth)
+    const adminSupabase = await createAdminClient()
+    const { error: profileError } = await adminSupabase.from('profiles').insert({
       id: data.user.id,
       full_name: fullName,
       role: role,

@@ -27,3 +27,30 @@ export async function createClient() {
     }
   )
 }
+
+/**
+ * Admin Client: Bypasses RLS.
+ * USE WITH EXTREME CAUTION. Only for server-side trusted operations.
+ */
+export async function createAdminClient() {
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+  if (!serviceRoleKey) {
+    throw new Error('SUPABASE_SERVICE_ROLE_KEY is not defined')
+  }
+
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    serviceRoleKey,
+    {
+      cookies: {
+        getAll() {
+          return []
+        },
+        setAll() {
+          // No-op for admin client
+        },
+      },
+    }
+  )
+}
