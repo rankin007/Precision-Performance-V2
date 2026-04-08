@@ -52,13 +52,14 @@ function LoginForm() {
             </button>
           </div>
 
-          <form className="space-y-6">
+          <form action={view === 'login' ? login : signup} className="space-y-6">
             <div className="space-y-4">
               <div className="relative">
                 <label className="text-[10px] uppercase font-bold text-slate-400 tracking-widest px-1 block mb-2">Email Address</label>
                 <div className="relative group">
                     <input
                         name="email"
+                        type="email"
                         placeholder="you@precision.com"
                         required
                         className="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl text-sm font-medium focus:ring-2 ring-[#C5A059]/20 transition-all outline-none"
@@ -86,6 +87,7 @@ function LoginForm() {
                     <input
                         name="fullName"
                         placeholder="Clinical Signature"
+                        required={view === 'register'}
                         className="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl text-sm font-medium focus:ring-2 ring-[#C5A059]/20 transition-all outline-none"
                     />
                   </div>
@@ -98,44 +100,47 @@ function LoginForm() {
                     >
                       <option value="Trainer">Trainer Authority</option>
                       <option value="Owner">Owner Authority</option>
-                      <option value="Super Admin">System Super Admin ✦</option>
                     </select>
                   </div>
                 </div>
               )}
             </div>
 
-            {view === 'login' ? (
-              <button 
-                formAction={login}
-                className="w-full py-5 bg-[#1B3022] text-white rounded-full font-bold text-xs uppercase tracking-[0.2em] shadow-xl hover:bg-slate-800 transition-all active:scale-[0.98] flex items-center justify-center gap-3"
-              >
-                <KeyRound className="w-4 h-4 text-[#C5A059]" />
-                Validate Credentials
-              </button>
-            ) : (
-              <button 
-                formAction={signup}
-                className="w-full py-5 bg-[#C5A059] text-white rounded-full font-bold text-xs uppercase tracking-[0.2em] shadow-xl hover:bg-[#b08d4b] transition-all active:scale-[0.98] flex items-center justify-center gap-3"
-              >
-                <UserPlus className="w-4 h-4" />
-                Initialize Access
-              </button>
-            )}
+            <button 
+                type="submit"
+                className={`w-full py-5 rounded-full font-bold text-xs uppercase tracking-[0.2em] shadow-xl transition-all active:scale-[0.98] flex items-center justify-center gap-3 ${
+                    view === 'login' 
+                    ? 'bg-[#1B3022] text-white hover:bg-slate-800' 
+                    : 'bg-[#C5A059] text-white hover:bg-[#b08d4b]'
+                }`}
+            >
+                {view === 'login' ? (
+                    <>
+                        <KeyRound className="w-4 h-4 text-[#C5A059]" />
+                        Validate Credentials
+                    </>
+                ) : (
+                    <>
+                        <UserPlus className="w-4 h-4" />
+                        Initialize Access
+                    </>
+                )}
+            </button>
           </form>
 
-          {/* MESSAGES */}
-          {error && (
-            <div className="mt-8 p-4 bg-slate-100 border border-slate-200 rounded-2xl flex items-start gap-3">
-              <ShieldAlert className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
-              <p className="text-xs text-slate-600 font-medium leading-relaxed">{error}</p>
-            </div>
-          )}
-
-          {message && (
-            <div className="mt-8 p-4 bg-slate-50 border border-slate-100 rounded-2xl flex items-start gap-3">
-              <Info className="w-4 h-4 text-[#C5A059] mt-0.5 shrink-0" />
-              <p className="text-xs text-slate-700 font-medium leading-relaxed">{message}</p>
+          {/* DYNAMIC SYSTEM MESSAGES */}
+          {(error || message) && (
+            <div className={`mt-8 p-4 rounded-2xl border flex items-start gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300 ${
+                error ? 'bg-red-50/50 border-red-100' : 'bg-[#1B3022]/5 border-[#1B3022]/10'
+            }`}>
+              {error ? (
+                <ShieldAlert className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
+              ) : (
+                <Info className="w-4 h-4 text-[#C5A059] mt-0.5 shrink-0" />
+              )}
+              <p className={`text-xs font-medium leading-relaxed ${error ? 'text-red-700' : 'text-[#1B3022]'}`}>
+                {error || message}
+              </p>
             </div>
           )}
         </div>
