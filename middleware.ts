@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { updateSession } from '@/utils/supabase/proxy'
+import { updateSession } from '@/utils/supabase/middleware'
 
-export default async function proxy(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   // DEV BYPASS: Allow local visual traversal without live DB credentials
   if (process.env.NODE_ENV === 'development') {
     return NextResponse.next()

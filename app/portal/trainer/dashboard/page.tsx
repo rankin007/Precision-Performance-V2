@@ -257,8 +257,8 @@ export default function TrainerDashboard() {
                     <span className="text-sm font-bold text-green-500">%</span>
                 </div>
             </div>
-            <div className="tactical-paddock p-0.5 rounded-2xl shadow-xl overflow-hidden">
-                <div className="bg-paddock px-8 py-4 rounded-[14px]">
+            <div className={`tactical-paddock p-0.5 rounded-full shadow-xl overflow-hidden ${clinicalStatus.isTripleHealing ? 'animate-pulse shadow-[0_0_20px_rgba(197,160,89,0.4)] border border-[#C5A059]/40' : ''}`}>
+                <div className="bg-paddock px-8 py-4 rounded-full">
                     <p className="text-[10px] uppercase font-bold text-gold/60 tracking-widest mb-1">Current State</p>
                     <p className="text-xl font-light text-white tracking-wide">Healing Gold</p>
                 </div>
@@ -370,7 +370,7 @@ export default function TrainerDashboard() {
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.2, delay: 0.1 }}
-            className="tactical-paddock p-8 rounded-[2rem] text-white shadow-2xl relative overflow-hidden border border-white/5"
+            className="tactical-paddock p-8 rounded-[3rem] text-white shadow-2xl relative overflow-hidden border border-[#1B3022]/20"
           >
             {/* Geometric Motif Overlay */}
             <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
@@ -450,10 +450,10 @@ export default function TrainerDashboard() {
                   <button 
                     onClick={submitDataToStable}
                     disabled={isSaving || !canEnterMetrics}
-                    className={`w-full py-5 font-bold uppercase tracking-[0.2em] text-xs rounded-2xl transition-all active:scale-[0.97] flex items-center justify-center gap-3 relative disabled:opacity-30 disabled:grayscale ${
+                    className={`w-full py-5 font-bold uppercase tracking-[0.2em] text-xs rounded-full transition-all active:scale-[0.97] flex items-center justify-center gap-3 relative disabled:opacity-30 disabled:grayscale ${
                         showSuccess 
-                        ? 'gold-success-animate text-white' 
-                        : 'bg-gradient-to-r from-white via-slate-50 to-white text-paddock shadow-sm hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]'
+                        ? 'bg-[#C5A059] shadow-[0_0_30px_rgba(197,160,89,0.4)] text-white' 
+                        : 'bg-gradient-to-r from-white via-slate-50 to-white text-paddock shadow-sm hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]'
                     }`}
                   >
                         {!canEnterMetrics ? (
@@ -512,33 +512,33 @@ export default function TrainerDashboard() {
           </motion.div>
         </div>
       </div>
-      {/* Critical System Alert Overlay */}
+      {/* Critical System Alert Overlay (Brand: Clinical Calm) */}
       <AnimatePresence>
         {showCriticalAlert && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-paddock/90 backdrop-blur-xl"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#1B3022]/90 backdrop-blur-md"
           >
             <motion.div 
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
-              className="max-w-md w-full bg-white rounded-[2.5rem] p-10 text-center shadow-[0_0_100px_rgba(255,59,48,0.2)] border border-red-100"
+              className="max-w-md w-full bg-white rounded-[2.5rem] p-10 text-center shadow-[0_0_50px_rgba(100,116,139,0.1)] border border-slate-100"
             >
-              <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-8 animate-pulse">
-                <Flame className="w-10 h-10 text-red-500" />
+              <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-8 animate-pulse text-slate-400">
+                <Flame className="w-10 h-10" />
               </div>
-              <h2 className="text-3xl font-light text-paddock mb-4">Critical biological Extreme</h2>
+              <h2 className="text-3xl font-light text-paddock mb-4">Clinical Boundary Deviation</h2>
               <p className="text-slate-500 text-sm leading-relaxed mb-10">
-                The values entered for <span className="font-bold text-red-500 italic">Autum</span> have exceeded standard safety thresholds. 
-                Immediate clinical review of the hydration/conductivity axis is required before stable sync.
+                The values entered for <span className="font-bold text-slate-600 italic">Autum</span> have deviated from standard physiological thresholds into a clinical extreme. 
+                Immediate review of the conductivity axis is required.
               </p>
               <button 
                 onClick={() => setShowCriticalAlert(false)}
-                className="w-full py-4 bg-paddock text-white font-bold uppercase tracking-widest text-[11px] rounded-2xl hover:bg-slate-800 transition-colors"
+                className="w-full py-4 bg-paddock text-white font-bold uppercase tracking-widest text-[11px] rounded-full hover:bg-slate-800 transition-colors"
               >
-                Acknowledge Severity
+                Acknowledge Review
               </button>
             </motion.div>
           </motion.div>

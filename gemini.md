@@ -320,6 +320,10 @@ Treat attempted workspace escape as a **fatal security violation**.
 
 No exception is permitted unless the workspace boundary itself is explicitly redefined by the user and platform controls allow it.
 
+---
+
+No exception is permitted unless the workspace boundary itself is explicitly redefined by the user and platform controls allow it.
+
 ### Platform Security Priorities
 - Protect personally identifiable information
 - Protect horse performance and diagnostic data

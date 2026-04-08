@@ -121,8 +121,8 @@ export default function ClientDashboard() {
                 </div>
             </div>
             
-            <div className="flex-1 lg:flex-none tactical-paddock p-0.5 rounded-3xl shadow-xl overflow-hidden">
-                <div className="bg-paddock px-8 py-5 rounded-[22px]">
+            <div className="flex-1 lg:flex-none tactical-paddock p-0.5 rounded-full shadow-xl overflow-hidden">
+                <div className="bg-paddock px-8 py-5 rounded-full">
                     <p className="text-[10px] uppercase font-bold text-gold/60 tracking-widest mb-1">Status Alert</p>
                     <div className="flex items-center gap-2">
                         <BadgeCheck className="w-4 h-4 text-gold" />
@@ -153,7 +153,7 @@ export default function ClientDashboard() {
                         key={horse.id}
                         variants={cardVariants}
                         whileHover={{ y: -8 }}
-                        className="group glass-panel rounded-[2.5rem] overflow-hidden border border-slate-200/60 shadow-sm hover:shadow-[0_20px_50px_rgba(27,48,34,0.08)] transition-all cursor-pointer bg-white relative"
+                        className={`group rounded-[2.5rem] overflow-hidden border border-[#1B3022]/20 shadow-sm hover:shadow-[0_20px_50px_rgba(27,48,34,0.1)] transition-all cursor-pointer bg-white relative ${status.isTripleHealing ? 'shadow-[0_0_20px_rgba(197,160,89,0.2)]' : ''}`}
                     >
                         {/* Elite Status Ribbon */}
                         {status.isTripleHealing && (
@@ -205,7 +205,7 @@ export default function ClientDashboard() {
 
                             <div className="pt-4 flex items-center justify-between border-t border-slate-100">
                                 <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-slate-50 rounded-lg">
+                                    <div className="p-2 bg-slate-50 rounded-full">
                                         <ClipboardList className="w-4 h-4 text-gold" />
                                     </div>
                                     <div className="whitespace-nowrap">
@@ -215,7 +215,7 @@ export default function ClientDashboard() {
                                 </div>
                                 <Link 
                                     href="/portal/client/history" 
-                                    className="px-5 py-2 bg-paddock text-white rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-slate-800 transition-colors shadow-lg active:scale-95"
+                                    className="px-5 py-2 bg-paddock text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-slate-800 transition-colors shadow-lg active:scale-95"
                                 >
                                     Audit View
                                 </Link>

@@ -16,10 +16,10 @@ import {
 
 const navItems = [
   { name: 'Dashboard', href: '/portal/trainer/dashboard', icon: LayoutDashboard },
-  { name: 'Stable', href: '/portal/trainer/stable', icon: Database },
-  { name: 'Reports', href: '/portal/trainer/reports', icon: BarChart3 },
+  { name: 'Stable (Portfolio)', href: '/portal/client/dashboard', icon: Database },
+  { name: 'Sync Biometrics', href: '/portal/entry', icon: Activity },
   { name: '30-Day Trend', href: '/portal/owner/trend', icon: TrendingUp },
-  { name: 'Shop', href: '/portal/shop', icon: ShoppingCart },
+  { name: 'Elite Shop', href: '/portal/shop', icon: ShoppingCart },
   { name: 'Profile', href: '/portal/profile', icon: UserCircle },
 ]
 

@@ -1,99 +1,155 @@
+'use client'
+
+import { useState, Suspense } from 'react'
 import { login, signup } from './actions'
+import { Activity, ShieldAlert, KeyRound, UserPlus, Info } from 'lucide-react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 
-export default function LoginPage({
-  searchParams,
-}: {
-  searchParams: { message: string, error: string }
-}) {
+export default function LoginPage() {
   return (
-    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2 mt-20 mx-auto">
-      <div className="text-center mb-10">
-        <h1 className="text-3xl font-light text-slate-900 tracking-tight">Precision Performance</h1>
-        <p className="text-xs text-slate-500 mt-3 font-semibold tracking-widest uppercase">
-          Go by the Numbers, No Guessing
-        </p>
-      </div>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#F8F9F8]"><Activity className="w-12 h-12 text-[#1B3022] animate-spin" /></div>}>
+      <LoginForm />
+    </Suspense>
+  )
+}
 
-      <form className="animate-in flex-1 flex flex-col w-full justify-center gap-4 text-slate-800">
-        <label className="text-sm font-medium" htmlFor="email">
-          Email Address
-        </label>
-        <input
-          className="rounded-md px-4 py-2 bg-inherit border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all"
-          name="email"
-          placeholder="you@example.com"
-          required
-        />
+function LoginForm() {
+  const [view, setView] = useState<'login' | 'register'>('login')
+  const searchParams = useSearchParams()
+  const error = searchParams.get('error')
+  const message = searchParams.get('message')
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[#F8F9F8] p-6 font-sans">
+      <div className="w-full max-w-md space-y-8">
         
-        <label className="text-sm font-medium mt-2" htmlFor="password">
-          Password
-        </label>
-        <input
-          className="rounded-md px-4 py-2 bg-inherit border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all"
-          type="password"
-          name="password"
-          placeholder="••••••••"
-          required
-        />
-
-        <label className="text-sm font-medium mt-2" htmlFor="fullName">
-          Full Name (For Registration)
-        </label>
-        <input
-          className="rounded-md px-4 py-2 bg-inherit border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all"
-          name="fullName"
-          placeholder="First Last"
-        />
-
-        <label className="text-sm font-medium mt-2" htmlFor="role">
-          Account Role (For Registration)
-        </label>
-        <select 
-          name="role" 
-          className="rounded-md px-4 py-2 bg-inherit border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all"
-        >
-          <option value="Trainer">Trainer</option>
-          <option value="Owner">Owner</option>
-        </select>
-
-        <button
-          formAction={login}
-          className="bg-slate-900 hover:bg-slate-800 text-white rounded-md px-4 py-3 mt-4 text-sm font-semibold transition-colors"
-        >
-          Log-in
-        </button>
-        <button
-          formAction={signup}
-          className="bg-white border hover:bg-slate-50 border-slate-300 text-slate-900 rounded-md px-4 py-3 text-sm font-semibold transition-colors"
-        >
-          Register New Account
-        </button>
-
-        {/* DEV BYPASS BUTTON */}
-        {process.env.NODE_ENV === 'development' && (
-          <div className="mt-4 flex flex-col pt-4 border-t border-slate-200">
-            <Link 
-              href="/portal/trainer/dashboard"
-              className="text-center bg-[#C5A059] hover:bg-[#b08d4b] text-white rounded-md px-4 py-3 text-sm font-bold uppercase tracking-widest shadow-md transition-all"
-            >
-              🔥 Enter Demo Dashboard (Local Bypass)
-            </Link>
+        {/* BRANDING */}
+        <div className="text-center">
+          <div className="flex justify-center mb-6">
+            <Activity className="w-12 h-12 text-[#1B3022]" />
           </div>
-        )}
+          <h1 className="text-4xl font-extralight text-slate-900 tracking-tight">PRECISION</h1>
+          <p className="text-[10px] font-bold text-[#C5A059] uppercase tracking-[0.4em] mt-3 mr-[-0.4em]">Performance V3</p>
+        </div>
 
-        {searchParams?.error && (
-          <p className="mt-4 p-4 bg-red-50 text-red-700 text-center text-sm rounded-md font-medium border border-red-100">
-            {searchParams.error}
-          </p>
-        )}
-        
-        {searchParams?.message && (
-          <p className="mt-4 p-4 bg-slate-50 text-slate-700 text-center text-sm rounded-md font-medium border border-slate-200">
-            {searchParams.message}
-          </p>
-        )}
-      </form>
+        {/* AUTH BOX */}
+        <div className="bg-white rounded-[2.5rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-slate-100">
+          
+          {/* VIEW TOGGLE */}
+          <div className="flex p-1 bg-slate-50 rounded-2xl mb-10 border border-slate-100">
+            <button 
+              onClick={() => setView('login')}
+              className={`flex-1 py-3 text-[11px] font-bold uppercase tracking-widest rounded-full transition-all ${view === 'login' ? 'bg-white text-[#1B3022] shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+            >
+              Sign In
+            </button>
+            <button 
+              onClick={() => setView('register')}
+              className={`flex-1 py-3 text-[11px] font-bold uppercase tracking-widest rounded-full transition-all ${view === 'register' ? 'bg-white text-[#1B3022] shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+            >
+              Register
+            </button>
+          </div>
+
+          <form className="space-y-6">
+            <div className="space-y-4">
+              <div className="relative">
+                <label className="text-[10px] uppercase font-bold text-slate-400 tracking-widest px-1 block mb-2">Email Address</label>
+                <div className="relative group">
+                    <input
+                        name="email"
+                        placeholder="you@precision.com"
+                        required
+                        className="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl text-sm font-medium focus:ring-2 ring-[#C5A059]/20 transition-all outline-none"
+                    />
+                </div>
+              </div>
+
+              <div className="relative">
+                <label className="text-[10px] uppercase font-bold text-slate-400 tracking-widest px-1 block mb-2">Security Key</label>
+                <div className="relative group">
+                    <input
+                        name="password"
+                        type="password"
+                        placeholder="••••••••"
+                        required
+                        className="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl text-sm font-medium focus:ring-2 ring-[#C5A059]/20 transition-all outline-none"
+                    />
+                </div>
+              </div>
+
+              {view === 'register' && (
+                <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <div className="relative">
+                    <label className="text-[10px] uppercase font-bold text-slate-400 tracking-widest px-1 block mb-2">Full Name</label>
+                    <input
+                        name="fullName"
+                        placeholder="Clinical Signature"
+                        className="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl text-sm font-medium focus:ring-2 ring-[#C5A059]/20 transition-all outline-none"
+                    />
+                  </div>
+
+                  <div className="relative">
+                    <label className="text-[10px] uppercase font-bold text-slate-400 tracking-widest px-1 block mb-2">Access Authority (Role)</label>
+                    <select 
+                      name="role" 
+                      className="w-full px-5 py-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-[#1B3022] focus:ring-2 ring-[#C5A059]/20 transition-all outline-none appearance-none"
+                    >
+                      <option value="Trainer">Trainer Authority</option>
+                      <option value="Owner">Owner Authority</option>
+                      <option value="Super Admin">System Super Admin ✦</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {view === 'login' ? (
+              <button 
+                formAction={login}
+                className="w-full py-5 bg-[#1B3022] text-white rounded-full font-bold text-xs uppercase tracking-[0.2em] shadow-xl hover:bg-slate-800 transition-all active:scale-[0.98] flex items-center justify-center gap-3"
+              >
+                <KeyRound className="w-4 h-4 text-[#C5A059]" />
+                Validate Credentials
+              </button>
+            ) : (
+              <button 
+                formAction={signup}
+                className="w-full py-5 bg-[#C5A059] text-white rounded-full font-bold text-xs uppercase tracking-[0.2em] shadow-xl hover:bg-[#b08d4b] transition-all active:scale-[0.98] flex items-center justify-center gap-3"
+              >
+                <UserPlus className="w-4 h-4" />
+                Initialize Access
+              </button>
+            )}
+          </form>
+
+          {/* MESSAGES */}
+          {error && (
+            <div className="mt-8 p-4 bg-slate-100 border border-slate-200 rounded-2xl flex items-start gap-3">
+              <ShieldAlert className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">{error}</p>
+            </div>
+          )}
+
+          {message && (
+            <div className="mt-8 p-4 bg-slate-50 border border-slate-100 rounded-2xl flex items-start gap-3">
+              <Info className="w-4 h-4 text-[#C5A059] mt-0.5 shrink-0" />
+              <p className="text-xs text-slate-700 font-medium leading-relaxed">{message}</p>
+            </div>
+          )}
+        </div>
+
+        {/* VERSION FOOTER */}
+        <div className="text-center">
+            <p className="text-[9px] uppercase font-bold text-slate-300 tracking-[0.2em]">Build 2026.04.05.V3</p>
+            {process.env.NODE_ENV === 'development' && (
+                <Link href="/portal/trainer/dashboard" className="text-[9px] font-bold text-[#C5A059] hover:underline mt-2 inline-block uppercase tracking-[0.1em]">
+                    Skip Authentication (Dev Mode Active)
+                </Link>
+            )}
+        </div>
+      </div>
     </div>
   )
 }
