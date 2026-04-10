@@ -6,7 +6,9 @@ import { Resend } from 'resend'
 
 export async function submitBeKitApplication(formData: FormData) {
     try {
-        const supabase = await createClient()
+        const cookieStore = await cookies()
+
+        const supabase = createClient(cookieStore)
 
         // 1. Get User
         const { data: authData } = await supabase.auth.getUser()

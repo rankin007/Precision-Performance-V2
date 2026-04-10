@@ -1,8 +1,11 @@
 import { createClient } from '@/utils/supabase/server'
+import { cookies } from 'next/headers'
 import OwnerTrendChart from './OwnerTrendChart'
 
 export default async function OwnerTrendDashboard() {
-  const supabase = await createClient()
+  const cookieStore = await cookies()
+
+  const supabase = createClient(cookieStore)
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return <div>Auth Context Missing</div>

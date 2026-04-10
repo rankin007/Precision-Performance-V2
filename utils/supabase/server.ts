@@ -1,9 +1,6 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+import { createServerClient } from '@supabase/ssr'
 
-export async function createClient() {
-  const cookieStore = await cookies()
-
+export const createClient = (cookieStore: any) => {
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -12,7 +9,7 @@ export async function createClient() {
         getAll() {
           return cookieStore.getAll()
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: any[]) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set({ name, value, ...options })
@@ -32,7 +29,7 @@ export async function createClient() {
  * Admin Client: Bypasses RLS.
  * USE WITH EXTREME CAUTION. Only for server-side trusted operations.
  */
-export async function createAdminClient() {
+export const createAdminClient = () => {
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
   if (!serviceRoleKey) {

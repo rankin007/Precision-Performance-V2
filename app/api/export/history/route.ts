@@ -1,8 +1,11 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
+import { cookies } from 'next/headers'
 
 export async function GET() {
-  const supabase = await createClient()
+  const cookieStore = await cookies()
+
+  const supabase = createClient(cookieStore)
   // Standardised British English dates and strictly raw numerical values.
   
   const csvHeader = 'Date (DD/MM/YYYY),Horse ID,Brix (%),Conductivity (C),Urine pH,Saliva pH,Trainer Observation\n'

@@ -4,7 +4,9 @@ import { createClient, createAdminClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
 export async function login(formData: FormData) {
-  const supabase = await createClient()
+  const cookieStore = await cookies()
+
+  const supabase = createClient(cookieStore)
   const email = formData.get('email') as string
   const password = formData.get('password') as string
 
@@ -47,7 +49,9 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
-  const supabase = await createClient()
+  const cookieStore = await cookies()
+
+  const supabase = createClient(cookieStore)
   const email = formData.get('email') as string
   const password = formData.get('password') as string
   const role = formData.get('role') as string // 'Trainer' or 'Owner'

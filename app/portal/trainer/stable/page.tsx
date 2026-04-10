@@ -1,9 +1,12 @@
 import { createClient } from '@/utils/supabase/server'
+import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { checkHealingStatus } from '@/utils/clinical'
 
 export default async function StablePage() {
-  const supabase = await createClient()
+  const cookieStore = await cookies()
+
+  const supabase = createClient(cookieStore)
 
   const { data: horses } = await supabase
     .from('horses')

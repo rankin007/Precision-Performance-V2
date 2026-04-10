@@ -1,9 +1,12 @@
 import { createClient } from '@/utils/supabase/server'
+import { cookies } from 'next/headers'
 import { procureProduct } from './actions'
 import { ShoppingBag, Box, Activity, ShieldCheck, Check } from 'lucide-react'
 
 export default async function ShopPage() {
-  const supabase = await createClient()
+  const cookieStore = await cookies()
+
+  const supabase = createClient(cookieStore)
   
   // 1. Fetch Products & Categories (V3 Schema)
   const { data: products } = await supabase
