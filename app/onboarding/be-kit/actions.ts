@@ -52,7 +52,7 @@ export async function submitBeKitApplication(formData: FormData) {
             
             const { error: updateError } = await adminSupabase
                 .from('profiles')
-                .update({ onboarding_completed: true })
+                .update({ onboarding_completed: true, portal_access_granted: true })
                 .eq('id', user.id)
 
             if (updateError) {
@@ -92,7 +92,13 @@ export async function submitBeKitApplication(formData: FormData) {
             }
         }
 
-        return { success: true }
+        // 7. Redirect to the appropriate dashboard based on role
+        const role = (user?.user_metadata?.role || 'client').toLowerCase()
+        if (role === 'trainer' || role === 'super admin' || role === 'admin') {
+            redirect('/portal/trainer/dashboard')
+        } else {
+            redirect('/portal/owner')
+        }
     } catch (e: any) {
         console.error('CRITICAL BE KIT SUBMISSION FAILURE:', e)
         return { error: e.message || 'An internal server error occurred during handshake initialization.' }
