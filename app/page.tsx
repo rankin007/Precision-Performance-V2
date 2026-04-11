@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen flex flex-col font-sans selection:bg-[#C5A059] selection:text-white bg-[#F8F9F8]">
+    <div className="relative min-h-screen flex flex-col font-sans selection:bg-[#C5A059] selection:text-white bg-[#1B3022]">
       
       {/* HERO SECTION */}
       <section className="relative h-screen flex flex-col items-center justify-between overflow-hidden">
@@ -17,7 +17,7 @@ export default function Home() {
             className="object-cover brightness-[0.4]"
           />
           {/* Subtle noise and gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#F8F9F8] z-10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#1B3022] z-10" />
         </div>
 
         {/* NAVIGATION HEADER */}
@@ -74,10 +74,10 @@ export default function Home() {
 
       {/* CORE MISSION */}
       <section id="mission" className="relative z-20 -mt-10 mx-auto max-w-6xl px-6 pb-24">
-        <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl p-12 md:p-20 border border-[#C5A059]/10">
+        <div className="bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl p-12 md:p-20 border border-[#C5A059]/20">
           <div className="max-w-3xl mx-auto text-center space-y-8">
-            <h3 className="text-[#1B3022] text-sm font-bold tracking-[0.3em] uppercase">The Precision Protocol</h3>
-            <p className="text-2xl md:text-3xl font-serif text-[#1B3022] leading-relaxed italic">
+            <h3 className="text-[#C5A059] text-sm font-bold tracking-[0.3em] uppercase">The Precision Protocol</h3>
+            <p className="text-2xl md:text-3xl font-serif text-white leading-relaxed italic">
               &quot;We don&apos;t look at a horse and guess its health. We analyze its biology. In REAL TIME with scientific instruments specifically for the elite athletes, we identify its <span className="text-[#C5A059] not-italic font-sans font-bold">Optimum Performance State</span>, the Healing Zone, and provide an individual guide to Nutrition and Hydration.&quot;
             </p>
           </div>
@@ -142,31 +142,31 @@ export default function Home() {
       </section>
 
       {/* PROFESSIONAL SERVICES */}
-      <section id="investment" className="py-32 bg-[#F8F9F8]">
+      <section id="investment" className="py-32 bg-[#1B3022]">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <div className="space-y-4 mb-20">
             <h3 className="text-[#C5A059] text-sm font-bold tracking-[0.3em] uppercase">Professional Services</h3>
-            <h4 className="text-4xl md:text-5xl font-bold text-[#1B3022] tracking-tight">The Elite Investment</h4>
+            <h4 className="text-4xl md:text-5xl font-bold text-white tracking-tight">The Elite Investment</h4>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-5xl mx-auto">
             {/* BE KIT */}
-            <div className="group relative bg-white border-2 border-transparent hover:border-[#C5A059] rounded-2xl p-8 md:p-12 text-left shadow-xl transition-all hover:-translate-y-2">
+            <div className="group relative bg-white/10 border-2 border-white/10 hover:border-[#C5A059] rounded-2xl p-8 md:p-12 text-left shadow-xl transition-all hover:-translate-y-2">
               <div className="mb-8">
-                <h5 className="text-[#1B3022] text-2xl font-bold mb-2">Professional BE Kit</h5>
-                <p className="text-[#1B3022]/60 text-lg">Elite Onboarding Experience</p>
+                <h5 className="text-white text-2xl font-bold mb-2">Professional BE Kit</h5>
+                <p className="text-white/60 text-lg">Elite Onboarding Experience</p>
                 <div className="mt-6 flex items-baseline gap-1">
-                  <span className="text-[#1B3022] text-5xl font-extrabold">$2,500</span>
-                  <span className="text-[#1B3022]/40 font-bold">AUD</span>
+                  <span className="text-white text-5xl font-extrabold">$2,500</span>
+                  <span className="text-white/40 font-bold">AUD</span>
                 </div>
               </div>
-              <ul className="space-y-4 mb-10 text-[#1B3022]/80">
+              <ul className="space-y-4 mb-10 text-white/80">
                 <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#C5A059]" />In-house performance testing station setup & training.</li>
                 <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#C5A059]" />Certified testing instruments & calibration services.</li>
                 <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#C5A059]" />200 Specimen containers & custom testing tray.</li>
               </ul>
               <Link href="/login" className="block w-full">
-                <button className="w-full py-4 bg-[#1B3022] group-hover:bg-[#C5A059] text-white rounded-md font-bold tracking-widest uppercase transition-colors">Select Onboarding</button>
+                <button className="w-full py-4 bg-[#C5A059] hover:bg-[#1B3022] text-white rounded-md font-bold tracking-widest uppercase transition-colors">Select Onboarding</button>
               </Link>
             </div>
 
