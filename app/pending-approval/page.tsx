@@ -1,5 +1,8 @@
 'use client'
 
+// Note: This page only appears if portal_access_granted = false in the profiles table.
+// To approve a user: run UPDATE profiles SET portal_access_granted = true WHERE id = '<user-id>';
+
 import { motion } from 'framer-motion'
 import { Clock, ShieldCheck, ArrowLeft, Mail } from 'lucide-react'
 import Link from 'next/link'
@@ -70,13 +73,13 @@ export default function PendingApprovalPage() {
           <span>Queries: admin@precisionperformance.com.au</span>
         </div>
 
-        <Link
-          href="/"
+        <a
+          href="https://www.precisionperformance.com.au"
           className="inline-flex items-center gap-3 px-10 py-5 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white/5 transition-all"
         >
           <ArrowLeft className="w-4 h-4" />
           Return to Assets
-        </Link>
+        </a>
       </motion.div>
     </div>
   )
