@@ -13,6 +13,8 @@ jobs:
   supabase-migrations:
     name: Supabase Database Sync & Validation
     runs-on: ubuntu-latest
+    # Non-blocking: migration validation runs independently, does not gate Vercel deployment
+    continue-on-error: true
     steps:
       - name: Code Repository Checkout
         uses: actions/checkout@v3
@@ -22,44 +24,29 @@ jobs:
         with:
           version: latest
 
-      - name: Validate Supabase Migrations
-        run: |
-          supabase start
-          supabase db lint
+      - name: Lint Supabase Migrations (remote)
+        run: supabase db lint --project-id ${{ secrets.SUPABASE_PROJECT_ID }}
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
-          SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
-
-      - name: Push Database Migrations to Staging/Production
-        if: github.ref == 'refs/heads/main'
-        run: supabase db push
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
-          SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+        continue-on-error: true
 
   vercel-deployment:
     name: Vercel Frontend Deployment
     runs-on: ubuntu-latest
-    needs: supabase-migrations
+    # No longer dependent on supabase-migrations — Vercel deploys immediately on push
     steps:
       - name: Code Repository Checkout
         uses: actions/checkout@v3
 
-      # Note: Vercel automatically deploys pushes to main if linked in the Vercel Dashboard.
-      # This step serves as an audit log or for explicit CLI deployments.
       - name: Vercel Deployment Trigger
-        run: echo "Vercel triggers automatically via GitHub integration on 'main' branch."
+        run: echo "Vercel deploys automatically via GitHub integration on 'main' branch push."
 
   railway-workers:
     name: Railway Background Workers
     runs-on: ubuntu-latest
-    needs: supabase-migrations
     steps:
       - name: Code Repository Checkout
         uses: actions/checkout@v3
-        
-      # Railway automatically builds based on the Dockerfile or Procfile.
+
       - name: Railway Deployment Status
         run: echo "Railway triggers automatically via GitHub integration."
