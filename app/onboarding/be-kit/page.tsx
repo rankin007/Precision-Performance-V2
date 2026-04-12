@@ -30,11 +30,9 @@ export default function BeKitOnboarding() {
     const formData = new FormData(e.currentTarget)
     const result = await submitBeKitApplication(formData)
 
+    // On success the server action calls redirect() — this code only runs on error
     if (result?.error) {
       setError(result.error)
-      setIsSubmitting(false)
-    } else if (result?.success) {
-      setIsSuccess(true)
       setIsSubmitting(false)
     }
   }
