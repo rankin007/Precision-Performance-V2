@@ -10,7 +10,7 @@ export default function Home() {
         {/* HERO IMAGE (Elite Randwick Asset) */}
         <div className="absolute inset-0 z-0">
           <Image 
-            src=".jpg" 
+            src="/images/hero.jpg" 
             alt="Elite Equine Performance" 
             fill 
             priority

@@ -29,16 +29,16 @@ export default async function StablePage() {
 
   // Standard Horse Library Mapping
   const horseImages: Record<string, string> = {
-    'Autum': '.jpg',
-    'Deloviere': '.jpg',
-    'Lunar Lover': '.jpg',
-    'Idle Flyer': '.jpg',
-    'Inn Count': '.jpg',
-    'Midiaro': '.jpg',
-    'Mountain Queen': '.jpg',
-    'Golden Standard': '.jpg',
-    'Febright': '.jpg',
-    'Blue Squares': '.jpg'
+    'Autum': '/images/autum.jpg',
+    'Deloviere': '/images/deloviere.jpg',
+    'Lunar Lover': '/images/lunar_lover.jpg',
+    'Idle Flyer': '/images/idle_flyer.jpg',
+    'Inn Count': '/images/inn_count.jpg',
+    'Midiaro': '/images/midiaro.jpg',
+    'Mountain Queen': '/images/mountain_queen.jpg',
+    'Golden Standard': '/images/golden_standard.jpg',
+    'Febright': '/images/febright.jpg',
+    'Blue Squares': '/images/blue_squares.jpg'
   }
 
   // Use the seeded horse names if DB is empty (dev fallback)
@@ -88,7 +88,7 @@ export default async function StablePage() {
             >
                 <div className="aspect-[16/10] relative overflow-hidden">
                     <img 
-                        src={horseImages[horse.name] || '.jpg'} 
+                        src={horseImages[horse.name] || '/images/autum.jpg'} 
                         alt={horse.name}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />

@@ -494,19 +494,19 @@ export default function TrainerDashboard() {
             <div className="grid grid-cols-2 gap-3">
                 <div className="aspect-[4/5] bg-slate-100 rounded-2xl overflow-hidden border border-gold/10 group relative cursor-zoom-in">
                     <div className="absolute inset-0 bg-gold/0 group-hover:bg-gold/10 transition-colors z-10" />
-                    <img src=".jpg" alt="Autum" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                    <img src="/images/autum.jpg" alt="Autum" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
                 </div>
                 <div className="aspect-[4/5] bg-slate-100 rounded-2xl overflow-hidden border border-gold/10 group relative cursor-zoom-in">
                     <div className="absolute inset-0 bg-gold/0 group-hover:bg-gold/10 transition-colors z-10" />
-                    <img src=".jpg" alt="Deloviere" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                    <img src="/images/deloviere.jpg" alt="Deloviere" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
                 </div>
                 <div className="aspect-[4/5] bg-slate-100 rounded-2xl overflow-hidden border border-gold/10 group relative cursor-zoom-in">
                     <div className="absolute inset-0 bg-gold/0 group-hover:bg-gold/10 transition-colors z-10" />
-                    <img src=".jpg" alt="Lunar Lover" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                    <img src="/images/lunar_lover.jpg" alt="Lunar Lover" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
                 </div>
                 <div className="aspect-[4/5] bg-slate-100 rounded-2xl overflow-hidden border border-gold/10 group relative cursor-zoom-in">
                     <div className="absolute inset-0 bg-gold/0 group-hover:bg-gold/10 transition-colors z-10" />
-                    <img src=".jpg" alt="Idle Flyer" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                    <img src="/images/idle_flyer.jpg" alt="Idle Flyer" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
                 </div>
             </div>
           </motion.div>
