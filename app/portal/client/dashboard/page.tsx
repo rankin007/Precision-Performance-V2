@@ -60,16 +60,16 @@ export default function ClientDashboard() {
 
   // Standard Horse Library Mapping
   const horseImages: Record<string, string> = {
-    'Autum': '/images/autum.png',
-    'Deloviere': '/images/deloviere.png',
-    'Lunar Lover': '/images/lunar_lover.png',
-    'Idle Flyer': '/images/idle_flyer.png',
-    'Inn Count': '/images/inn_count.png',
-    'Midiaro': '/images/midiaro.png',
-    'Mountain Queen': '/images/mountain_queen.png',
-    'Golden Standard': '/images/golden_standard.png',
-    'Febright': '/images/febright.png',
-    'Blue Squares': '/images/blue_squares.png'
+    'Autum': '.jpg',
+    'Deloviere': '.jpg',
+    'Lunar Lover': '.jpg',
+    'Idle Flyer': '.jpg',
+    'Inn Count': '.jpg',
+    'Midiaro': '.jpg',
+    'Mountain Queen': '.jpg',
+    'Golden Standard': '.jpg',
+    'Febright': '.jpg',
+    'Blue Squares': '.jpg'
   }
 
   // Consistent Fallback for Stable Roster Integration
